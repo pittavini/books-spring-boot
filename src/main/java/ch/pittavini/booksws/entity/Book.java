@@ -22,6 +22,7 @@ import javax.validation.constraints.NotNull;
 
 import ch.pittavini.booksws.control.BookPersistListener;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.annotations.ApiModelProperty;
 
 
 @Entity
@@ -29,11 +30,13 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @EntityListeners(BookPersistListener.class)
 public class Book implements Comparable<Book> {
 
+    @ApiModelProperty(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @ApiModelProperty(hidden = true)
     @Version
     private int version;
 

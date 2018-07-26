@@ -5,6 +5,7 @@ import javax.validation.Valid;
 
 import ch.pittavini.booksws.control.BookRepository;
 import ch.pittavini.booksws.entity.Book;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,8 @@ public class BookRestController {
      * The RequestBody annotation for parameter book is only used to keep swagger happy entering json
      * as a request, otherwise the application does not need it
      */
+    @ApiOperation(value = "Create a book",
+            notes = "Add a book to the collection")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void create(@Valid @RequestBody Book book) {
@@ -43,6 +46,8 @@ public class BookRestController {
      * The RequestBody annotation for parameter book is only used to keep swagger happy entering json
      * as a request, otherwise the application does not need it
      */
+    @ApiOperation(value = "Delete a book",
+            notes = "Deleted a book entry, only users with admin role can perform this operation")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -56,10 +61,13 @@ public class BookRestController {
      * @param sortField the sort field
      * @return a list of books when successful othewise bad request
      */
+    @ApiOperation(value = "Find all books",
+            notes = "Retrieves the list of books based on the provided sort field, direction is fixed to desc.  List count is limited to 20 entries.  Default sort field is book publication date")
     @GetMapping()
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public List findAll(@RequestParam("sort_field") String sortField) {
-        final PageRequest page = PageRequest.of(0, 20, Sort.Direction.DESC, sortField);
+    public List findAll(@RequestParam(value = "sort_field", required=false) String sortField) {
+        String sortFieldValue = sortField == null ? "publicationDate" : sortField;
+        final PageRequest page = PageRequest.of(0, 20, Sort.Direction.DESC, sortFieldValue);
         return bookRepository.findAll(page).getContent();
     }
 }

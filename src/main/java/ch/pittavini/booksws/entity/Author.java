@@ -7,15 +7,19 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Version;
 
+import io.swagger.annotations.ApiModelProperty;
+
 
 @Entity
 public class Author implements Comparable<Author> {
 
+    @ApiModelProperty(hidden = true)
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", updatable = false, nullable = false)
     private Long id;
 
+    @ApiModelProperty(hidden = true)
     @Version
     private int version;
 
