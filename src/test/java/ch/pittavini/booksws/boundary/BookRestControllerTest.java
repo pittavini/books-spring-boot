@@ -1,7 +1,7 @@
 package ch.pittavini.booksws.boundary;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.TreeSet;
 
@@ -48,7 +48,7 @@ public class BookRestControllerTest {
         //given
         Author author = new Author();
         author.setName("James Wayne");
-        String notifJson = bookToJson(TITLE, Timestamp.valueOf(LocalDateTime.now()), new Author[]{author});
+        String notifJson = bookToJson(TITLE, Date.valueOf(LocalDate.now()), new Author[]{author});
 
         //then
         this.mvc.perform(post("/api/books")
@@ -59,7 +59,7 @@ public class BookRestControllerTest {
     @Test
     void addBookShouldReturnBadRequest_EmptyAuthors() throws Exception {
         //given
-        String notifJson = bookToJson(TITLE, Timestamp.valueOf(LocalDateTime.now()), new Author[]{});
+        String notifJson = bookToJson(TITLE, Date.valueOf(LocalDate.now()), new Author[]{});
 
         //then
         this.mvc.perform(post("/api/books")
@@ -72,7 +72,7 @@ public class BookRestControllerTest {
         //given
         Author author = new Author();
         author.setName("James Wayne");
-        String notifJson = bookToJson(null, Timestamp.valueOf(LocalDateTime.now()), new Author[]{author});
+        String notifJson = bookToJson(null, Date.valueOf(LocalDate.now()), new Author[]{author});
 
         //then
         this.mvc.perform(post("/api/books")
@@ -93,7 +93,7 @@ public class BookRestControllerTest {
                 .content(notifJson)).andExpect(status().isBadRequest());
     }
 
-    private String bookToJson(String title, Timestamp publicationDate, Author[] authors)
+    private String bookToJson(String title, Date publicationDate, Author[] authors)
             throws JsonProcessingException {
         Book book = new Book();
         book.setTitle(title);

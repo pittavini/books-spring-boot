@@ -1,7 +1,7 @@
 package ch.pittavini.booksws.control;
 
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.SortedSet;
@@ -36,7 +36,7 @@ public class BookRepositoryTest {
         //given
         Author author = new Author();
         author.setName("James Wayne");
-        Book book = getBook("title", Timestamp.valueOf(LocalDateTime.now()), new Author[]{author});
+        Book book = getBook("title", Date.valueOf(LocalDate.now()), new Author[]{author});
 
         bookRepo.saveAndFlush(book);
 
@@ -57,8 +57,8 @@ public class BookRepositoryTest {
         //given
         Author author = new Author();
         author.setName("James Wayne");
-        Book book1 = getBook("title abc", Timestamp.valueOf(LocalDateTime.now()), new Author[]{author});
-        Book book2 = getBook("title def", Timestamp.valueOf(LocalDateTime.now().minusMonths(1)), new Author[]{author});
+        Book book1 = getBook("title abc", Date.valueOf(LocalDate.now()), new Author[]{author});
+        Book book2 = getBook("title def", Date.valueOf(LocalDate.now().minusMonths(1)), new Author[]{author});
 
         //when
         bookRepo.saveAndFlush(book1);
@@ -72,7 +72,7 @@ public class BookRepositoryTest {
     @Test
     public void saveBookWithEmptyAuthors_GeneratesException() {
         //given
-        Book book = getBook("batman", Timestamp.valueOf(LocalDateTime.now()), new Author[]{});
+        Book book = getBook("batman", Date.valueOf(LocalDate.now()), new Author[]{});
 
         assertThrows(ConstraintViolationException.class,
                 ()-> {
@@ -96,7 +96,7 @@ public class BookRepositoryTest {
     @Test
     public void saveBookWithNoTitle_GeneratesException() {
         //given
-        Book book = getBook(null, Timestamp.valueOf(LocalDateTime.now()), new Author[]{});
+        Book book = getBook(null, Date.valueOf(LocalDate.now()), new Author[]{});
 
         assertThrows(ValidationException.class,
                 ()-> {
@@ -105,7 +105,7 @@ public class BookRepositoryTest {
                 });
     }
 
-    private Book getBook(String title, Timestamp publicationDate, Author[] authors) {
+    private Book getBook(String title, Date publicationDate, Author[] authors) {
         Book book = new Book();
         book.setTitle(title);
         book.setPublicationDate(publicationDate);

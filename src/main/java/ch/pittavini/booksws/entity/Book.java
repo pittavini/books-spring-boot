@@ -1,6 +1,6 @@
 package ch.pittavini.booksws.entity;
 
-import java.sql.Timestamp;
+import java.sql.Date;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import javax.persistence.CascadeType;
@@ -21,7 +21,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import ch.pittavini.booksws.control.BookPersistListener;
-import io.swagger.annotations.ApiModelProperty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
@@ -38,9 +38,9 @@ public class Book implements Comparable<Book> {
     private int version;
 
     @Column(name = "publication_date")
-    @ApiModelProperty(hidden = true)
+    @JsonFormat(pattern="yyyy-MM-dd")
     @NotNull
-    private Timestamp publicationDate;
+    private Date publicationDate;
 
     @NotBlank
     private String title;
@@ -90,11 +90,11 @@ public class Book implements Comparable<Book> {
         this.version = version;
     }
 
-    public Timestamp getPublicationDate() {
+    public Date getPublicationDate() {
         return publicationDate;
     }
 
-    public void setPublicationDate(Timestamp publicationDate) {
+    public void setPublicationDate(Date publicationDate) {
         this.publicationDate = publicationDate;
     }
 

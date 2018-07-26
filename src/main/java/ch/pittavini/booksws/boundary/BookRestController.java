@@ -8,6 +8,7 @@ import ch.pittavini.booksws.entity.Book;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,20 +43,11 @@ public class BookRestController {
      * The RequestBody annotation for parameter book is only used to keep swagger happy entering json
      * as a request, otherwise the application does not need it
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(value = "{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void delete(@PathVariable Integer id) {
+    public void delete(@PathVariable Long id) {
         bookRepository.deleteById(id);
-    }
-
-    /**
-     * The RequestBody annotation for parameter book is only used to keep swagger happy entering json
-     * as a request, otherwise the application does not need it
-     */
-    @GetMapping()
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public List find(@PathVariable String title) {
-        return bookRepository.findAllByTitleContains(title);
     }
 
     /**
