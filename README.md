@@ -13,5 +13,6 @@ There are unit tests for both repository and rest controller, these can be run u
 mvn clean test
 
 TODO Items:
-- enforce admin role on delete method 
 - collect code coverage reports from UT
+- RestController UT missing security testing, and delete api testing
+- User should be able to pass the limit and direction order to findall api
